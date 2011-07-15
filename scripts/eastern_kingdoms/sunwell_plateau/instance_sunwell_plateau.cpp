@@ -204,11 +204,8 @@ void instance_sunwell_plateau::EjectPlayer(Player* pPlayer)
     {
         if (pSath->isAlive())
         {
-            if (HostileReference* pRef = pSath->getThreatManager().getOnlineContainer().getReferenceByTarget(pPlayer))
-            {
-                pRef->removeReference();
+                pSath->RemoveUnitFromHostileRefManager(pPlayer);    // THIS HAS BEEN IMPLENTED
                 debug_log("SD2: Deleting %s from Sathrovarr's threatlist", pPlayer->GetName());
-            }
         }
     }*/
 

@@ -567,11 +567,8 @@ bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
         {
             if (pKalecgos->isAlive())
             {
-                if (HostileReference* pRef = pKalecgos->getThreatManager().getOnlineContainer().getReferenceByTarget(pPlayer))
-                {
-                    pRef->removeReference();
+                    pKalecgos->RemoveUnitFromHostileRefManager(pPlayer);    // THIS HAS BEEN IMPLENTED
                     debug_log("SD2: Deleting %s from pKalecgos's threatlist", pPlayer->GetName());
-                }
             }
         }*/
 
