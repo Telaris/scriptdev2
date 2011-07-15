@@ -1,4 +1,5 @@
 /* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
+   Copyright (C) 2011 MangosR2_ScriptDev2 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -54,11 +55,13 @@ enum KalecgosEncounter
 
     SPELL_ARCANE_BUFFET             = 45018,
     SPELL_FROST_BREATH              = 44799,
-    SPELL_HEROIC_STRIKE             = 45026,
-    SPELL_REVITALIZE                = 45027,
     SPELL_TAIL_LASH                 = 45122,
     SPELL_TRANSFORM_KALEC           = 45027,
     SPELL_CRAZED_RAGE               = 44806,                // this should be 44807 instead
+
+    //kalecgos humanoid form
+    SPELL_HEROIC_STRIKE             = 45026,
+    SPELL_REVITALIZE                = 45027,
 
      //Sathrovarr
     SPELL_SPECTRAL_INVIS            = 44801,
@@ -352,6 +355,10 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
     }
 };
 
+//---------------------------\\
+//-------- Sathrovarr --------\\
+//\\//\\//\\//\\//\\//\\//\\//\\
+
 struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
 {
     boss_sathrovarrAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -473,6 +480,10 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
     }
 };
 
+//---------------------------\\
+//----- kalecgos_humanoid ----\\
+//\\//\\//\\//\\//\\//\\//\\//\\
+
 struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
 {
     boss_kalecgos_humanoidAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -546,6 +557,10 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
         }
     }
 };
+
+/*####
+## go_spectral_rift
+####*/
 
 bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
 {

@@ -3,12 +3,10 @@
 -- Instance SWP & Database Fixes --
 -- ----------------------------- --
 UPDATE `creature_template` SET `modelid_2` = 26628 WHERE `entry` = 24892; -- missing dispaly id for horde for sathrovarr
-
-DELETE FROM `creature` WHERE `id`=24892; -- Sathrovarr the Corruptor spawned in wrong spot  .. will be spawned again in later script
-DELETE FROM `creature` WHERE `id`=24891; -- Kalecgos humaniod form is spawned in wrong spot .. will be spawned again in later script
-
 UPDATE `creature_template` SET `spell1` = 45026, `spell2` = 45027 WHERE `entry` = 24891; -- update kalecgos humaniod spells on creature template
 
+UPDATE `creature` SET `position_x` = 1704.12, `position_y` = 928.987, `position_z` = -74.5583, `orientation` = 4.88677 WHERE `guid` = 102510; -- moved kalecgos humanoid spot
+UPDATE `creature` SET `position_x` = 1706.96, `position_y` = 914.745, `position_z` = -74.5583, `orientation` = 1.77188 WHERE `guid` = 100698; -- move sarthvorr to needed spot
 
 
 -- -----------------------------------------------------------------------------------------------------------
