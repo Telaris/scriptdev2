@@ -2,12 +2,16 @@
 -- ----------------------------- --
 -- Instance SWP & Database Fixes --
 -- ----------------------------- --
-UPDATE `creature_template` SET `modelid_2` = 26628 WHERE `entry` = 24892; -- missing dispaly id for horde for sathrovarr
+UPDATE `creature_template` SET `modelid_2` = 26628 WHERE `entry` = 24892; -- missing display id for horde for sathrovarr
 UPDATE `creature_template` SET `spell1` = 45026, `spell2` = 45027 WHERE `entry` = 24891; -- update kalecgos humaniod spells on creature template
 
-UPDATE `creature` SET `position_x` = 1704.12, `position_y` = 928.987, `position_z` = -74.5583, `orientation` = 4.88677 WHERE `guid` = 102510; -- moved kalecgos humanoid spot
-UPDATE `creature` SET `position_x` = 1706.96, `position_y` = 914.745, `position_z` = -74.5583, `orientation` = 1.77188 WHERE `guid` = 100698; -- move sarthvorr to needed spot
+-- Delete static spawns for sathrovarr and human kalecgos
+DELETE FROM `creature` WHERE `id`= 24891;
+DELETE FROM `creature` WHERE `id`= 24892;
 
+-- set normal and spectral realm bunnies invis
+UPDATE `creature_template` SET `flags_extra` = 128 WHERE `entry` = 25795;
+UPDATE `creature_template` SET `flags_extra` = 128 WHERE `entry` = 25796;
 
 -- -----------------------------------------------------------------------------------------------------------
 -- ---------------

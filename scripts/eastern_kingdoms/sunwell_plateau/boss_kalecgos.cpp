@@ -147,6 +147,9 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
 
         if (m_pInstance)
             m_pInstance->SetData(TYPE_KALECGOS, IN_PROGRESS);
+
+         m_creature->SummonCreature(NPC_KALECGOS_HUMAN, 1704.12f, 928.987f, -74.5583f, 4.88677f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 50000000);
+         m_creature->SummonCreature(NPC_SATHROVARR, 1706.96f, 914.745f, -74.5583f, 1.77188f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 500000000);
     }
 
     void DamageTaken(Unit* done_by, uint32 &damage)
