@@ -388,7 +388,7 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
         m_bBanished = false;
         m_bEnraged  = false;
 
-        m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+        //m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
     }
 
     void Aggro(Unit* who)
@@ -512,7 +512,7 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
         HasYelled10Percent = false;
         HasYelled20Percent = false;
 
-        m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+        //m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
     }
 
     void Aggro(Unit* who)
@@ -588,7 +588,7 @@ bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
                 debug_log("SD2: Adding %s in pSath' threatlist", pPlayer->GetName());
                 pSath->AddThreat(pPlayer);
             }
-        }
+        }*/
 
         // Remove player from Sathrovarr's threat list
         if (Creature* pKalecgos = pInstance->GetSingleCreatureFromStorage(NPC_SATHROVARR)) ++ TODO might contain typos
@@ -598,7 +598,7 @@ bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
                     pKalecgos->RemoveUnitFromHostileRefManager(pPlayer);    // THIS HAS BEEN IMPLENTED
                     debug_log("SD2: Deleting %s from pKalecgos's threatlist", pPlayer->GetName());
             }
-        }*/
+        }
 
         pInstance->SetGuid(DATA_PLAYER_SPECTRAL_REALM, pPlayer->GetObjectGuid());
     }
