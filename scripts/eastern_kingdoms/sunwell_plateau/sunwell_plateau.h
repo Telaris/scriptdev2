@@ -3,6 +3,13 @@
  * This program is free software licensed under GPL version 2
  * Please see the included DOCS/LICENSE.TXT for more information */
 
+/* ScriptData
+SDName: Sunwell_Plateau.H
+SD%Complete: 80%
+SDComment:
+SDCategory: Sunwell_Plateau
+EndScriptData */
+
 #ifndef DEF_SUNWELLPLATEAU_H
 #define DEF_SUNWELLPLATEAU_H
 
@@ -23,15 +30,15 @@ enum
     NPC_KALECGOS_DRAGON         = 24850,            // kalecgos blue dragon hostile
     NPC_KALECGOS_HUMAN          = 24891,            // kalecgos human form in spectral realm
     NPC_SATHROVARR              = 24892,
-    // NPC_BRUTALLUS            = 24882,
-    // NPC_FELMYST              = 25038,
+    NPC_BRUTALLUS            = 24882,
+    NPC_FELMYST              = 25038,
     NPC_ALYTHESS                = 25166,
     NPC_SACROLASH               = 25165,
-    // NPC_MURU                 = 25741,
-    // NPC_KILJAEDEN            = 25315,
-    // NPC_KILJAEDEN_CONTROLLER = 25608,            // kiljaeden event controller
-    // NPC_ANVEENA              = 26046,            // related to kiljaeden event
-    // NPC_KALECGOS             = 25319,            // related to kiljaeden event
+    NPC_MURU                 = 25741,
+    NPC_KILJAEDEN            = 25315,
+    NPC_KILJAEDEN_CONTROLLER = 25608,            // kiljaeden event controller
+    NPC_ANVEENA              = 26046,            // related to kiljaeden event
+    NPC_KALECGOS             = 25319,            // related to kiljaeden event
 
     GO_FORCEFIELD               = 188421,           // kalecgos door + collisions
     GO_BOSS_COLLISION_1         = 188523,
