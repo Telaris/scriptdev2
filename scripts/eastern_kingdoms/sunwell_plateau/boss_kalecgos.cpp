@@ -145,8 +145,10 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
     {
         DoScriptText(SAY_EVIL_AGGRO, m_creature);
 
-        if (m_pInstance)
-            m_pInstance->SetData(TYPE_KALECGOS, IN_PROGRESS);
+        if (m_pInstance) // TEMP HACK TO GET EVENT 1 FINISHED
+            m_pInstance->SetData(TYPE_KALECGOS, DONE);
+        //if (m_pInstance)   //REAL DATA
+          //  m_pInstance->SetData(TYPE_KALECGOS, IN_PROGRESS);  // REAL DATA
 
          m_creature->SummonCreature(NPC_KALECGOS_HUMAN, 1704.12f, 928.987f, -74.5583f, 4.88677f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 50000000);
          m_creature->SummonCreature(NPC_SATHROVARR, 1706.96f, 914.745f, -74.5583f, 1.77188f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 500000000);
