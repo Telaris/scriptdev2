@@ -137,7 +137,7 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
 
         if (m_uiSlashTimer < uiDiff)
         {
-            DoCastSpellIfCan(m_creature->getVictim(),SPELL_METEOR_SLASH);
+            DoCastSpellIfCan(m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 0),SPELL_METEOR_SLASH); // small walk around to keep meteorslash a frontal ability
             m_uiSlashTimer = 11000;
         }
         else
@@ -145,7 +145,7 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
 
         if (m_uiStompTimer < uiDiff)
         {
-            if (Unit* pTarget = m_creature->getVictim())
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 0)) //Stomp needs to be focus on main tank target
             {
                 DoCastSpellIfCan(pTarget,SPELL_STOMP);
 

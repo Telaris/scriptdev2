@@ -593,7 +593,7 @@ bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
         }*/
 
         // Remove player from Sathrovarr's threat list
-        if (Creature* pKalecgos = pInstance->GetSingleCreatureFromStorage(NPC_SATHROVARR)) ++ TODO might contain typos
+        if (Creature* pKalecgos = pInstance->GetSingleCreatureFromStorage(NPC_SATHROVARR)) // TODO might contain typos
         {
             if (pKalecgos->isAlive())
             {
