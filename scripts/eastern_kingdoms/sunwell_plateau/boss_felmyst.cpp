@@ -1,5 +1,5 @@
 /* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
-   Copyright (C) 2011 MangosR2_ScriptDev2 
+   Copyright (C) 2011 MangosR2_ScriptDev2
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -42,18 +42,18 @@ enum
     //Aura
     SPELL_SUNWELLRADIANCE_AURA  = 45769,
     SPELL_NOXIOUSFUMES_AURA     = 47002,
- 
+
     //Land Phase
-    SPELL_CLEAVE                = 19983, 
+    SPELL_CLEAVE                = 19983,
     SPELL_CORROSION             = 45866,
     SPELL_GASNOVA               = 45855,
     SPELL_ENCAPSULATE_CHANNEL   = 45661,
     SPELL_ENCAPSULATE_AOE       = 45662,
-   
+
     //Flight Phase
     SPELL_VAPOR_DAMAGE          = 46931, // vapor damage, 4000
     SPELL_TRAIL_TRIGGER         = 45399, // trail to self, trigger 454
-   
+
     //Other
     SPELL_ENRAGE                = 26662,
     SPELL_BERSERK               = 45078,
@@ -76,17 +76,17 @@ enum
     SPELL_SHAMAN                = 47071, // 100%
     SPELL_HUNTER                = 48098, // 100%
 };
- 
+
 enum Creatures
 {
     MOB_FELMYST         = 25038,
     MOB_DEAD            = 25268, //undead podczas fly fazy
- 
+
     MOB_MADRIGOSA       = 25160,
     MOB_FELMYST_VISUAL  = 25041,
     MOB_FLIGHT_LEFT     = 25357,
     MOB_FLIGHT_RIGHT    = 25358,
- 
+
     MOB_VAPOR           = 25265,
     MOB_VAPOR_TRAIL     = 25267,
 
@@ -122,35 +122,36 @@ struct MANGOS_DLL_DECL boss_felmystAI : public ScriptedAI
     void Aggro(Unit *who)
     {
         m_creature->SetInCombatWithZone();
-        DoScriptText(YELL_AGGRO, m_creature);
- 
+        //DoScriptText(YELL_AGGRO, m_creature);
+
         if (pInstance)
             pInstance->SetData(TYPE_FELMYST, IN_PROGRESS);
     }
 
-    void KilledUnit(Unit* victim)
+    /*void KilledUnit(Unit* victim)
     {
         switch(rand()%3)
         {
-            case 0: DoScriptText(YELL_SLAY1, m_creature); break;
-            case 1: DoScriptText(YELL_SLAY2, m_creature); break;
-            case 2: DoScriptText(YELL_SLAY3, m_creature); break;
+            //case 0: DoScriptText(YELL_SLAY1, m_creature); break;
+            //case 1: DoScriptText(YELL_SLAY2, m_creature); break;
+            //case 2: DoScriptText(YELL_SLAY3, m_creature); break;
         }
         switch(rand()%2)
         {
             case 0: DoPlaySoundToSet(m_creature, 12480); break;
             case 1: DoPlaySoundToSet(m_creature, 12481); break;
         }
-    }
- 
+    }*/
+
     void JustDied(Unit* Killer)
     {
-        DoScriptText(YELL_DEATH, m_creature);
+        //DoScriptText(YELL_DEATH, m_creature);
         DoPlaySoundToSet(m_creature, 12483);
 
         if(pInstance)
             pInstance->SetData(TYPE_FELMYST, DONE);
     }
+};
 
 CreatureAI* GetAI_boss_felmyst(Creature *_Creature)
 {
@@ -160,7 +161,7 @@ CreatureAI* GetAI_boss_felmyst(Creature *_Creature)
 void AddSC_boss_felmyst()
 {
     Script *newscript;
- 
+
     newscript = new Script;
     newscript->Name = "boss_felmyst";
     newscript->GetAI = &GetAI_boss_felmyst;

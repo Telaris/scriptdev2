@@ -88,7 +88,18 @@ enum Creatures
 
 /*####
 # boss_alythess
-####*/
+####
+
+struct MANGOS_DLL_DECL boss_alythessAI : public ScriptedAI
+{
+    boss_alythessAI(Creature *c) : ScriptedAI(c)
+    {
+        pInstance = ((ScriptedInstance*)c->GetInstanceData());
+        //Reset();
+    }
+
+	ScriptedInstance* pInstance;
+};
 
 CreatureAI* GetAI_boss_alythess(Creature *_Creature)
 {
@@ -97,16 +108,28 @@ CreatureAI* GetAI_boss_alythess(Creature *_Creature)
 
 /*####
 # boss_sacrolash
-####*/
+####
+
+struct MANGOS_DLL_DECL boss_sacrolashAI : public ScriptedAI
+{
+    boss_sacrolashAI(Creature *c) : ScriptedAI(c)
+    {
+        pInstance = ((ScriptedInstance*)c->GetInstanceData());
+       // Reset();
+    }
+			
+	ScriptedInstance* pInstance;
+};
 
 CreatureAI* GetAI_boss_sacrolash(Creature *_Creature)
 {
-    return new boss_sacrolashAI (_Creature);
+    //return new boss_sacrolashAI (_Creature);
 }
 
+*/
 void AddSC_boss_eredar_twins()
 {
-    Script *newscript;
+    /*Script *newscript;
 
     newscript = new Script;
     newscript->Name = "boss_alythess";
@@ -116,5 +139,5 @@ void AddSC_boss_eredar_twins()
     newscript = new Script;
     newscript->Name = "boss_sacrolash";
     newscript->GetAI = &GetAI_boss_sacrolash;
-    newscript->RegisterSelf();
+    newscript->RegisterSelf();*/
 }

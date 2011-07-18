@@ -67,28 +67,28 @@ enum summons
 // Sumoned trash coordinates
 float Trash[6][2] =
 {
-        {1853.300,588.653},
-        {1781.502,659.254},
-        {1853.300,588.653},
-        {1853.300,588.653},     
-        {1781.502,659.254},
-        {1781.502,659.254},
+        {1853.300f,588.653f},
+        {1781.502f,659.254f},
+        {1853.300f,588.653f},
+        {1853.300f,588.653f},     
+        {1781.502f,659.254f},
+        {1781.502f,659.254f},
 };
 
 float ShadowPortalSpawn[5][3] =
 {
-        {1797.644,613.744,0.56290},
-        {1822.956,646.437,4.40262},
-        {1794.275,626.539,6.23522},
-        {1809.726,646.494,5.01348},     
-        {1798.854,638.952,5.62435}
+        {1797.644f,613.744f,0.56290f},
+        {1822.956f,646.437f,4.40262f},
+        {1794.275f,626.539f,6.23522f},
+        {1809.726f,646.494f,5.01348f},     
+        {1798.854f,638.952f,5.62435f}
 };
 
 /*####
 # boss_muru
 ####*/
 
-truct MANGOS_DLL_DECL boss_muruAI : public ScriptedAI
+struct MANGOS_DLL_DECL boss_muruAI : public ScriptedAI
 {
     boss_muruAI(Creature *c) : ScriptedAI(c) 
     {
@@ -105,8 +105,8 @@ truct MANGOS_DLL_DECL boss_muruAI : public ScriptedAI
         if(m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE))
             m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
 
-        if(!m_creature->HasAura(AURA_SUNWELL_RADIANCE, 0))
-            m_creature->CastSpell(m_creature, AURA_SUNWELL_RADIANCE, true);
+       // if(!m_creature->HasAura(AURA_SUNWELL_RADIANCE, 0))
+         //   m_creature->CastSpell(m_creature, AURA_SUNWELL_RADIANCE, true);
 
         if(pInstance)
             pInstance->SetData(TYPE_MURU, NOT_STARTED);
@@ -126,6 +126,7 @@ truct MANGOS_DLL_DECL boss_muruAI : public ScriptedAI
         if(!Killer)
             return;
     }
+};
 
 CreatureAI* GetAI_boss_muru(Creature *_Creature)
 {
