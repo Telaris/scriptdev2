@@ -38,6 +38,7 @@ enum Brutallus
     SOUND_MADR_ICE_BLOCK            = 12474,
     SOUND_MADR_TRAP                 = 12475,
     SOUND_MADR_DEATH                = 12476,
+    // need to make texts for these above
 
     YELL_INTRO                      = -1580017,
     YELL_INTRO_BREAK_ICE            = -1580018,
