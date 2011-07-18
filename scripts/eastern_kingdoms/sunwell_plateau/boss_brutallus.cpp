@@ -104,7 +104,7 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
         m_bIsIntroNow = true;
         m_uiIntroCount = 0;
 
-        if(!m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_ATTACKABLE))
+        if(!m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE))
             m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
 
         if (m_pInstance)
@@ -218,8 +218,11 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
 
         if (m_uiSlashTimer < uiDiff)
         {
-            DoCastSpellIfCan(m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 0),SPELL_METEOR_SLASH); // small walk around to keep meteorslash a frontal ability
-            m_uiSlashTimer = 11000;
+            if (Unit* pTarget = m_creature->SelectAttackingTarget(ATTACKING_TARGET_TOPAGGRO, 0)) // small walk around to keep meteorslash a frontal ability
+            {
+                DoCast(pTarget,SPELL_METEOR_SLASH);
+                m_uiSlashTimer = 11000;
+            }
         }
         else
             m_uiSlashTimer -= uiDiff;
