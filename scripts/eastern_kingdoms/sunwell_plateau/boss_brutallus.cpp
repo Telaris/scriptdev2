@@ -17,7 +17,7 @@
 
 /* ScriptData
 SDName: Boss_Brutallus
-SD%Complete: 50
+SD%Complete: ??%
 SDComment: Intro not made. Script for Madrigosa to be added here.
 SDCategory: Sunwell Plateau
 EndScriptData */
@@ -27,6 +27,17 @@ EndScriptData */
 
 enum Brutallus
 {
+    SOUND_INTRO                     = 12458,
+    SOUND_INTRO_BREAK_ICE           = 12459,
+    SOUND_INTRO_CHARGE              = 12460,
+    SOUND_INTRO_KILL_MADRIGOSA      = 12461,
+    SOUND_INTRO_TAUNT               = 12462,
+    SOUND_MADR_ICE_BARRIER          = 12472,
+    SOUND_MADR_INTRO                = 12473,
+    SOUND_MADR_ICE_BLOCK            = 12474,
+    SOUND_MADR_TRAP                 = 12475,
+    SOUND_MADR_DEATH                = 12476,
+
     YELL_INTRO                      = -1580017,
     YELL_INTRO_BREAK_ICE            = -1580018,
     YELL_INTRO_CHARGE               = -1580019,
@@ -53,7 +64,13 @@ enum Brutallus
     SPELL_BURN                      = 45141,
     SPELL_BURN_AURA_EFFECT          = 46394,
     SPELL_STOMP                     = 45185,
-    SPELL_BERSERK                   = 26662
+    SPELL_BERSERK                   = 26662,
+
+    //Madrigosa
+    SPELL_ICE_BARRIER               = 45203,
+    SPELL_FROZEN_PRISON             = 47854,
+
+    CREATURE_MADRIGOSA              = 25160
 };
 
 struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
@@ -72,6 +89,10 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
     uint32 m_uiBerserkTimer;
     uint32 m_uiLoveTimer;
 
+    uint32 m_uiIntroCount;
+    uint32 m_uiIntroTimer;
+    bool m_bIsIntroNow;
+
     void Reset()
     {
         m_uiSlashTimer = 11000;
@@ -79,8 +100,13 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
         m_uiBurnTimer = 60000;
         m_uiBerserkTimer = 360000;
         m_uiLoveTimer = urand(10000, 17000);
+        m_uiIntroTimer = 5000;
+        m_bIsIntroNow = true;
+        m_uiIntroCount = 0;
 
-        //TODO: correct me when pre-event implemented
+        if(!m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_ATTACKABLE))
+            m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+
         if (m_pInstance)
             m_pInstance->SetData(TYPE_BRUTALLUS, NOT_STARTED);
     }
@@ -88,9 +114,12 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
     void Aggro(Unit* pWho)
     {
         DoScriptText(YELL_AGGRO, m_creature);
+        DoPlaySoundToSet(m_creature, 12463);
 
         if (m_pInstance)
             m_pInstance->SetData(TYPE_BRUTALLUS, IN_PROGRESS);
+
+        Creature* Madrigosa = m_creature->SummonCreature(CREATURE_MADRIGOSA, 1465.831f, 647.065f, m_creature->GetPositionZ(), 4.729f, TEMPSUMMON_TIMED_DESPAWN, 42000);
     }
 
     void KilledUnit(Unit* pVictim)
@@ -120,6 +149,58 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
     void UpdateAI(const uint32 uiDiff)
     {
         if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
+            return;
+
+        if(m_uiIntroTimer < uiDiff)
+        {
+            if(m_bIsIntroNow)
+            {
+                m_creature->StopMoving();
+                m_creature->GetMotionMaster()->Clear();
+                m_creature->GetMotionMaster()->MoveIdle();
+
+                switch(m_uiIntroCount)
+                {
+                    case 0:
+                        DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BARRIER);
+                        m_uiIntroTimer = 6000; break;
+                    case 1:
+                        DoPlaySoundToSet(m_creature, SOUND_MADR_INTRO);
+                        m_uiIntroTimer = 5000; break;
+                    case 2:
+                        DoPlaySoundToSet(m_creature, SOUND_INTRO);
+                        m_uiIntroTimer = 6000; break;
+                    case 3:
+                        DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BLOCK);
+                        m_uiIntroTimer = 4000; break;
+                    case 4:
+                        DoPlaySoundToSet(m_creature, SOUND_INTRO_BREAK_ICE);
+                        m_uiIntroTimer = 5000; break;
+                    case 5:
+                        DoPlaySoundToSet(m_creature, SOUND_MADR_TRAP);
+                        m_uiIntroTimer = 5000; break;
+                    case 6:
+                        DoPlaySoundToSet(m_creature, SOUND_INTRO_CHARGE);
+                        m_uiIntroTimer = 5000; break;
+                    case 7:
+                        DoPlaySoundToSet(m_creature, SOUND_MADR_DEATH);
+                        m_uiIntroTimer = 5000; break;
+                    case 8:
+                        DoPlaySoundToSet(m_creature, SOUND_INTRO_KILL_MADRIGOSA);
+                        m_uiIntroTimer = 6000; break;
+                    case 9:
+                        DoPlaySoundToSet(m_creature, SOUND_INTRO_TAUNT);
+                        m_creature->GetMotionMaster()->MoveChase(m_creature->getVictim());
+                        m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+                        m_uiBerserkTimer = 360000;
+                        m_bIsIntroNow = false; 
+                        break;
+                }
+                ++m_uiIntroCount;
+            }
+        }else m_uiIntroTimer -= uiDiff;
+
+        if(m_bIsIntroNow)
             return;
 
         if (m_uiLoveTimer < uiDiff)
