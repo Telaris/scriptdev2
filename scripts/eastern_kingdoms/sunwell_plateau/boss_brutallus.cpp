@@ -20,6 +20,7 @@ SDName: Boss_Brutallus
 SD%Complete: ??%
 SDComment: Intro not made. Script for Madrigosa to be added here.
 SDCategory: Sunwell Plateau
+NOTES : bruts should be immune to meteor slash
 EndScriptData */
 
 #include "precompiled.h"

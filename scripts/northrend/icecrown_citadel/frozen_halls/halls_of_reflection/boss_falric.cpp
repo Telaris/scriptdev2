@@ -20,6 +20,7 @@ SD%Complete: 70%
 SDComment:
 SDAuthor: /dev/rsa, changed by MaxXx2021 aka Mioka
 SDCategory: Halls of Reflection
+NOTES : boss should be immune to hopelessness
 EndScriptData */
 
 #include "precompiled.h"
