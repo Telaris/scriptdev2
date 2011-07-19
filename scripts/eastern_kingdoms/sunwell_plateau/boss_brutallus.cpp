@@ -94,6 +94,8 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
     uint32 m_uiIntroCount;
     uint32 m_uiIntroTimer;
     bool m_bIsIntroNow;
+    bool m_bHasTaunted;
+    ObjectGuid m_uiMadrigosaGuid;
 
     void Reset()
     {
@@ -105,6 +107,9 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
         m_uiIntroTimer = 5000;
         m_bIsIntroNow = true;
         m_uiIntroCount = 0;
+
+        m_uiMadrigosaGuid = 0;
+        m_bHasTaunted = false;
 
         if(!m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE))
             m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -120,8 +125,6 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
 
         if (m_pInstance)
             m_pInstance->SetData(TYPE_BRUTALLUS, IN_PROGRESS);
-
-        Creature* Madrigosa = m_creature->SummonCreature(CREATURE_MADRIGOSA, 1465.831f, 647.065f, m_creature->GetPositionZ(), 4.729f, TEMPSUMMON_TIMED_DESPAWN, 42000);
     }
 
     void KilledUnit(Unit* pVictim)
@@ -132,6 +135,21 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
             case 1: DoScriptText(YELL_KILL2, m_creature); break;
             case 2: DoScriptText(YELL_KILL3, m_creature); break;
         }
+    }
+
+    void MoveInLineOfSight(Unit* pWho)
+    {
+        if (!m_bHasTaunted && m_creature->IsWithinDistInMap(pWho, 60.0f))
+        {
+            m_creature->SetFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
+            if(Creature* Madrigosa = m_creature->SummonCreature(CREATURE_MADRIGOSA, 1465.831f, 647.065f, m_creature->GetPositionZ(), 4.729f, TEMPSUMMON_TIMED_DESPAWN, 42000))
+                m_uiMadrigosaGuid = Madrigosa->GetObjectGuid();
+            m_bHasTaunted = true;
+            m_bIsIntroNow = true;
+            m_uiIntroTimer = 5000;
+        }
+
+        ScriptedAI::MoveInLineOfSight(pWho);
     }
 
     void JustDied(Unit* pKiller)
@@ -150,9 +168,6 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
 
     void UpdateAI(const uint32 uiDiff)
     {
-        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
-            return;
-
         if(m_uiIntroTimer < uiDiff)
         {
             if(m_bIsIntroNow)
@@ -164,33 +179,59 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
                 switch(m_uiIntroCount)
                 {
                     case 0:
-                        DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BARRIER);
+                        if(Creature* pMadrigosa = m_pInstance->instance->GetCreature(m_uiMadrigosaGuid))
+                        {
+                            DoScriptText(YELL_MADR_ICE_BARRIER, pMadrigosa);
+                            DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BARRIER);
+                            m_creature->SetGuidValue(UNIT_FIELD_TARGET, pMadrigosa->GetObjectGuid());
+                        }
                         m_uiIntroTimer = 6000; break;
                     case 1:
-                        DoPlaySoundToSet(m_creature, SOUND_MADR_INTRO);
+                        if(Creature* pMadrigosa = m_pInstance->instance->GetCreature(m_uiMadrigosaGuid))
+                        {
+                            DoScriptText(YELL_MADR_INTRO, pMadrigosa);
+                            DoPlaySoundToSet(m_creature, SOUND_MADR_INTRO);
+                        }
                         m_uiIntroTimer = 5000; break;
                     case 2:
+                        DoScriptText(YELL_INTRO, m_creature);
                         DoPlaySoundToSet(m_creature, SOUND_INTRO);
                         m_uiIntroTimer = 6000; break;
                     case 3:
-                        DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BLOCK);
+                        if(Creature* pMadrigosa = m_pInstance->instance->GetCreature(m_uiMadrigosaGuid))
+                        {
+                            DoScriptText(YELL_MADR_ICE_BLOCK, pMadrigosa);
+                            DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BLOCK);
+                            //pMadrigosa->CastSpell(m_creature, SPELL_ICE_BARRIER, false);
+                        }
                         m_uiIntroTimer = 4000; break;
                     case 4:
+                        DoScriptText(YELL_INTRO_BREAK_ICE, m_creature);
                         DoPlaySoundToSet(m_creature, SOUND_INTRO_BREAK_ICE);
+                        //m_creature->RemoveAurasDueToSpell(SPELL_ICE_BARRIER);
                         m_uiIntroTimer = 5000; break;
                     case 5:
-                        DoPlaySoundToSet(m_creature, SOUND_MADR_TRAP);
+                        if(Creature* pMadrigosa = m_pInstance->instance->GetCreature(m_uiMadrigosaGuid))
+                           DoScriptText(YELL_MADR_TRAP, pMadrigosa);
+                           DoPlaySoundToSet(m_creature, SOUND_MADR_TRAP);
                         m_uiIntroTimer = 5000; break;
                     case 6:
+                        DoScriptText(YELL_INTRO_CHARGE, m_creature);
+                        //if(Creature* pMadrigosa = m_pInstance->instance->GetCreature(m_uiMadrigosaGuid))
+                            //DoCast(pMadrigosa, SPELL_FROZEN_PRISON);
                         DoPlaySoundToSet(m_creature, SOUND_INTRO_CHARGE);
                         m_uiIntroTimer = 5000; break;
                     case 7:
+                        if(Creature* pMadrigosa = m_pInstance->instance->GetCreature(m_uiMadrigosaGuid))
+                            DoScriptText(YELL_MADR_DEATH, pMadrigosa);
                         DoPlaySoundToSet(m_creature, SOUND_MADR_DEATH);
                         m_uiIntroTimer = 5000; break;
                     case 8:
+                        DoScriptText(YELL_INTRO_KILL_MADRIGOSA, m_creature);
                         DoPlaySoundToSet(m_creature, SOUND_INTRO_KILL_MADRIGOSA);
                         m_uiIntroTimer = 6000; break;
                     case 9:
+                        DoScriptText(YELL_INTRO_TAUNT, m_creature);
                         DoPlaySoundToSet(m_creature, SOUND_INTRO_TAUNT);
                         m_creature->GetMotionMaster()->MoveChase(m_creature->getVictim());
                         m_creature->RemoveFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE);
@@ -203,6 +244,9 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
         }else m_uiIntroTimer -= uiDiff;
 
         if(m_bIsIntroNow)
+            return;
+
+        if (!m_creature->SelectHostileTarget() || !m_creature->getVictim())
             return;
 
         if (m_uiLoveTimer < uiDiff)
