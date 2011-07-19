@@ -183,7 +183,7 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
                         {
                             DoScriptText(YELL_MADR_ICE_BARRIER, pMadrigosa);
                             DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BARRIER);
-                            m_creature->SetGuidValue(UNIT_FIELD_TARGET, pMadrigosa->GetObjectGuid());
+                            m_creature->SetTargetGuid(UNIT_FIELD_TARGET, pMadrigosa->GetObjectGuid());
                         }
                         m_uiIntroTimer = 6000; break;
                     case 1:
