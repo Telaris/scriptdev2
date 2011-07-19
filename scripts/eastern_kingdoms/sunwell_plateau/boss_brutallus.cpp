@@ -108,7 +108,7 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
         m_bIsIntroNow = true;
         m_uiIntroCount = 0;
 
-        m_uiMadrigosaGuid = 0;
+        m_uiMadrigosaGuid.Clear();
         m_bHasTaunted = false;
 
         if(!m_creature->HasFlag(UNIT_FIELD_FLAGS, UNIT_FLAG_NON_ATTACKABLE))
@@ -183,7 +183,7 @@ struct MANGOS_DLL_DECL boss_brutallusAI : public ScriptedAI
                         {
                             DoScriptText(YELL_MADR_ICE_BARRIER, pMadrigosa);
                             DoPlaySoundToSet(m_creature, SOUND_MADR_ICE_BARRIER);
-                            m_creature->SetTargetGuid(UNIT_FIELD_TARGET, pMadrigosa->GetObjectGuid());
+                            m_creature->SetGuidValue(UNIT_FIELD_TARGET, pMadrigosa->GetObjectGuid());
                         }
                         m_uiIntroTimer = 6000; break;
                     case 1:
