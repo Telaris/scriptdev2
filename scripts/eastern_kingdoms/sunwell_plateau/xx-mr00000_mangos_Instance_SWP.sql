@@ -9,6 +9,9 @@ UPDATE `creature_template` SET `spell1` = 45026, `spell2` = 45027 WHERE `entry` 
 DELETE FROM `creature` WHERE `id`= 24891;
 DELETE FROM `creature` WHERE `id`= 24892;
 
+-- delete static spawn of felmyst
+DELETE FROM `creature` WHERE `id`=25038;
+
 -- set normal and spectral realm bunnies invis
 UPDATE `creature_template` SET `flags_extra` = 128 WHERE `entry` = 25795;
 UPDATE `creature_template` SET `flags_extra` = 128 WHERE `entry` = 25796;
