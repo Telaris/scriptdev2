@@ -26,6 +26,8 @@ enum
 
     DATA_PLAYER_SPECTRAL_REALM  = 6,
     DATA_SET_SPECTRAL_CHECK     = 7,
+    
+    TYPE_KILJAEDEN_PHASE        = 8,
 
     NPC_KALECGOS_DRAGON         = 24850,            // kalecgos blue dragon hostile
     NPC_KALECGOS_HUMAN          = 24891,            // kalecgos human form in spectral realm
@@ -50,6 +52,9 @@ enum
     GO_MURU_ENTER_GATE          = 187990,           // muru gates
     GO_MURU_EXIT_GATE           = 188118,
     GO_THIRD_GATE               = 187765,           // door after muru; why another?
+
+    // used by ALOT of mobs and bosses in sunwell plateau
+    SPELL_SUNWELL_RADIANCE				= 45769,
 
     // spells related to kalecgos event
     SPELL_SPECTRAL_REALM                = 46021,
