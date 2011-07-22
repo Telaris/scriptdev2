@@ -41,6 +41,7 @@ enum
     NPC_KILJAEDEN_CONTROLLER    = 25608,            // kiljaeden event controller
     NPC_ANVEENA                 = 26046,            // related to kiljaeden event
     NPC_KALECGOS                = 25319,            // related to kiljaeden event
+    NPC_MADRIGOSA               = 24895,
 
     GO_FORCEFIELD               = 188421,           // kalecgos door + collisions
     GO_BOSS_COLLISION_1         = 188523,
