@@ -54,6 +54,10 @@ enum
     GO_MURU_EXIT_GATE           = 188118,
     GO_THIRD_GATE               = 187765,           // door after muru; why another?
 
+    SAY_TWINS_INTRO             = -1580044,
+
+    AREATRIGGER_TWINS           = 4937,
+
     // used by ALOT of mobs and bosses in sunwell plateau
     SPELL_SUNWELL_RADIANCE				= 45769,
 
