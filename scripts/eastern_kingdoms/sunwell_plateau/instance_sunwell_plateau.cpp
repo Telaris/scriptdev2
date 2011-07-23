@@ -1,5 +1,4 @@
 /* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
-   Copyright (C) 2011 MangosR2_ScriptDev2 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -17,7 +16,7 @@
 
 /* ScriptData
 SDName: Instance_Sunwell_Plateau
-SD%Complete: 80%
+SD%Complete: 70%
 SDComment:
 SDCategory: Sunwell_Plateau
 EndScriptData */
@@ -63,16 +62,8 @@ void instance_sunwell_plateau::OnCreatureCreate(Creature* pCreature)
         case NPC_KALECGOS_DRAGON:
         case NPC_KALECGOS_HUMAN:
         case NPC_SATHROVARR:
-        case NPC_MADRIGOSA:
-        case NPC_BRUTALLUS:
-        case NPC_FELMYST:
         case NPC_ALYTHESS:
         case NPC_SACROLASH:
-        case NPC_MURU:
-        case NPC_KILJAEDEN:
-        case NPC_KILJAEDEN_CONTROLLER:
-        case NPC_ANVEENA:
-        case NPC_KALECGOS:
             m_mNpcEntryGuidStore[pCreature->GetEntry()] = pCreature->GetObjectGuid();
             break;
     }
@@ -198,25 +189,28 @@ void instance_sunwell_plateau::EjectPlayer(Player* pPlayer)
 {
     debug_log("SD2: Ejecting Player %s from Spectral Realm", pPlayer->GetName());
 
-    /* Put player back in Kalecgos(Dragon)'s threat list
-    if (Creature* pKalecgos = GetSingleCreatureFromStorage(NPC_KALECGOS_DRAGON))
+    // Put player back in Kalecgos(Dragon)'s threat list
+    /*if (Creature* pKalecgos = GetSingleCreatureFromStorage(NPC_KALECGOS_DRAGON))
     {
         if (pKalecgos->isAlive())
         {
             debug_log("SD2: Adding %s in Kalecgos' threatlist", pPlayer->GetName());
             pKalecgos->AddThreat(pPlayer);
         }
-    }*/
+    }
 
     // Remove player from Sathrovarr's threat list
     if (Creature* pSath = instance->GetCreature(NPC_SATHROVARR))
     {
         if (pSath->isAlive())
         {
-                pSath->RemoveUnitFromHostileRefManager(pPlayer);    // THIS HAS BEEN IMPLENTED IN CORE
+            if (HostileReference* pRef = pSath->getThreatManager().getOnlineContainer().getReferenceByTarget(pPlayer))
+            {
+                pRef->removeReference();
                 debug_log("SD2: Deleting %s from Sathrovarr's threatlist", pPlayer->GetName());
+            }
         }
-    }
+    }*/
 
     pPlayer->CastSpell(pPlayer, SPELL_SPECTRAL_EXHAUSTION, true);
     pPlayer->CastSpell(pPlayer, SPELL_TELEPORT_NORMAL_REALM, true);
@@ -307,12 +301,12 @@ void AddSC_instance_sunwell_plateau()
     Script* pNewScript;
 
     pNewScript = new Script;
-    pNewScript->Name = "at_sunwell_plateau";
-    pNewScript->pAreaTrigger = &AreaTrigger_at_sunwell_plateau;
+    pNewScript->Name = "instance_sunwell_plateau";
+    pNewScript->GetInstanceData = &GetInstanceData_instance_sunwell_plateau;
     pNewScript->RegisterSelf();
 
     pNewScript = new Script;
-    pNewScript->Name = "instance_sunwell_plateau";
-    pNewScript->GetInstanceData = &GetInstanceData_instance_sunwell_plateau;
+    pNewScript->Name = "at_sunwell_plateau";
+    pNewScript->pAreaTrigger = &AreaTrigger_at_sunwell_plateau;
     pNewScript->RegisterSelf();
 }

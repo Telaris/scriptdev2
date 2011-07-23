@@ -1,14 +1,6 @@
 /* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
-   Copyright (C) 2011 MangosR2_ScriptDev2 
  * This program is free software licensed under GPL version 2
  * Please see the included DOCS/LICENSE.TXT for more information */
-
-/* ScriptData
-SDName: Sunwell_Plateau.H
-SD%Complete: 80%
-SDComment:
-SDCategory: Sunwell_Plateau
-EndScriptData */
 
 #ifndef DEF_SUNWELLPLATEAU_H
 #define DEF_SUNWELLPLATEAU_H
@@ -26,22 +18,19 @@ enum
 
     DATA_PLAYER_SPECTRAL_REALM  = 6,
     DATA_SET_SPECTRAL_CHECK     = 7,
-    
-    TYPE_KILJAEDEN_PHASE        = 8,
 
     NPC_KALECGOS_DRAGON         = 24850,            // kalecgos blue dragon hostile
     NPC_KALECGOS_HUMAN          = 24891,            // kalecgos human form in spectral realm
     NPC_SATHROVARR              = 24892,
-    NPC_BRUTALLUS               = 24882,
-    NPC_FELMYST                 = 25038,
+    // NPC_BRUTALLUS            = 24882,
+    // NPC_FELMYST              = 25038,
     NPC_ALYTHESS                = 25166,
     NPC_SACROLASH               = 25165,
-    NPC_MURU                    = 25741,
-    NPC_KILJAEDEN               = 25315,
-    NPC_KILJAEDEN_CONTROLLER    = 25608,            // kiljaeden event controller
-    NPC_ANVEENA                 = 26046,            // related to kiljaeden event
-    NPC_KALECGOS                = 25319,            // related to kiljaeden event
-    NPC_MADRIGOSA               = 24895,
+    // NPC_MURU                 = 25741,
+    // NPC_KILJAEDEN            = 25315,
+    // NPC_KILJAEDEN_CONTROLLER = 25608,            // kiljaeden event controller
+    // NPC_ANVEENA              = 26046,            // related to kiljaeden event
+    // NPC_KALECGOS             = 25319,            // related to kiljaeden event
 
     GO_FORCEFIELD               = 188421,           // kalecgos door + collisions
     GO_BOSS_COLLISION_1         = 188523,
@@ -57,9 +46,6 @@ enum
     SAY_TWINS_INTRO             = -1580044,
 
     AREATRIGGER_TWINS           = 4937,
-
-    // used by ALOT of mobs and bosses in sunwell plateau
-    SPELL_SUNWELL_RADIANCE				= 45769,
 
     // spells related to kalecgos event
     SPELL_SPECTRAL_REALM                = 46021,

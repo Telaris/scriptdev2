@@ -1,5 +1,4 @@
 /* Copyright (C) 2006 - 2011 ScriptDev2 <http://www.scriptdev2.com/>
-   Copyright (C) 2011 MangosR2_ScriptDev2 
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -55,13 +54,11 @@ enum KalecgosEncounter
 
     SPELL_ARCANE_BUFFET             = 45018,
     SPELL_FROST_BREATH              = 44799,
+    SPELL_HEROIC_STRIKE             = 45026,
+    SPELL_REVITALIZE                = 45027,
     SPELL_TAIL_LASH                 = 45122,
     SPELL_TRANSFORM_KALEC           = 45027,
     SPELL_CRAZED_RAGE               = 44806,                // this should be 44807 instead
-
-    //kalecgos humanoid form
-    SPELL_HEROIC_STRIKE             = 45026,
-    SPELL_REVITALIZE                = 45027,
 
      //Sathrovarr
     SPELL_SPECTRAL_INVIS            = 44801,
@@ -98,7 +95,6 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
 
     uint32 m_uiArcaneBuffetTimer;
     uint32 m_uiFrostBreathTimer;
-    uint32 m_uiTailLashTimer;
     uint32 m_uiWildMagicTimer;
     uint32 m_uiSpectralBlastTimer;
     uint32 m_uiExitTimer;
@@ -113,7 +109,6 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
     {
         m_uiArcaneBuffetTimer       = 8000;
         m_uiFrostBreathTimer        = 24000;
-        m_uiTailLashTimer           = 27000;
         m_uiWildMagicTimer          = 18000;
         m_uiSpectralBlastTimer      = 30000;
 
@@ -145,13 +140,8 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
     {
         DoScriptText(SAY_EVIL_AGGRO, m_creature);
 
-        if (m_pInstance) // TEMP HACK TO GET EVENT 1 FINISHED
-            m_pInstance->SetData(TYPE_KALECGOS, DONE);
-        //if (m_pInstance)   //REAL DATA
-          //  m_pInstance->SetData(TYPE_KALECGOS, IN_PROGRESS);  // REAL DATA
-
-         m_creature->SummonCreature(NPC_KALECGOS_HUMAN, 1704.12f, 928.987f, -74.5583f, 4.88677f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 50000000);
-         m_creature->SummonCreature(NPC_SATHROVARR, 1706.96f, 914.745f, -74.5583f, 1.77188f, TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT, 500000000);
+        if (m_pInstance)
+            m_pInstance->SetData(TYPE_KALECGOS, IN_PROGRESS);
     }
 
     void DamageTaken(Unit* done_by, uint32 &damage)
@@ -302,14 +292,6 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
             }else m_uiExitTimer -= diff;
         }
 
-        if (m_uiTailLashTimer < diff)
-        {
-            if (DoCastSpellIfCan(m_creature->getVictim(), SPELL_TAIL_LASH) == CAST_OK)
-                m_uiTailLashTimer = 27000;
-        }
-        else
-            m_uiTailLashTimer -= diff;
-
         if (m_uiArcaneBuffetTimer < diff)
         {
             if (DoCastSpellIfCan(m_creature->getVictim(), SPELL_ARCANE_BUFFET) == CAST_OK)
@@ -360,10 +342,6 @@ struct MANGOS_DLL_DECL boss_kalecgosAI : public ScriptedAI
     }
 };
 
-//---------------------------\\
-//-------- Sathrovarr --------\\
-//\\//\\//\\//\\//\\//\\//\\//\\
-
 struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
 {
     boss_sathrovarrAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -390,7 +368,7 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
         m_bBanished = false;
         m_bEnraged  = false;
 
-        //m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+        m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
     }
 
     void Aggro(Unit* who)
@@ -485,10 +463,6 @@ struct MANGOS_DLL_DECL boss_sathrovarrAI : public ScriptedAI
     }
 };
 
-//---------------------------\\
-//----- kalecgos_humanoid ----\\
-//\\//\\//\\//\\//\\//\\//\\//\\
-
 struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
 {
     boss_kalecgos_humanoidAI(Creature* pCreature) : ScriptedAI(pCreature)
@@ -514,7 +488,7 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
         HasYelled10Percent = false;
         HasYelled20Percent = false;
 
-        //m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
+        m_creature->CastSpell(m_creature, SPELL_SPECTRAL_INVIS, true);
     }
 
     void Aggro(Unit* who)
@@ -563,10 +537,6 @@ struct MANGOS_DLL_DECL boss_kalecgos_humanoidAI : public ScriptedAI
     }
 };
 
-/*####
-## go_spectral_rift
-####*/
-
 bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
 {
     if (pGo->GetGoType() != GAMEOBJECT_TYPE_GOOBER)
@@ -590,17 +560,20 @@ bool GOUse_go_spectral_rift(Player* pPlayer, GameObject* pGo)
                 debug_log("SD2: Adding %s in pSath' threatlist", pPlayer->GetName());
                 pSath->AddThreat(pPlayer);
             }
-        }*/
+        }
 
         // Remove player from Sathrovarr's threat list
-        if (Creature* pKalecgos = pInstance->GetSingleCreatureFromStorage(NPC_SATHROVARR)) // TODO might contain typos
+        if (Creature* pKalecgos = pInstance->GetSingleCreatureFromStorage(NPC_SATHROVARR)) ++ TODO might contain typos
         {
             if (pKalecgos->isAlive())
             {
-                    pKalecgos->RemoveUnitFromHostileRefManager(pPlayer);    // THIS HAS BEEN IMPLENTED
+                if (HostileReference* pRef = pKalecgos->getThreatManager().getOnlineContainer().getReferenceByTarget(pPlayer))
+                {
+                    pRef->removeReference();
                     debug_log("SD2: Deleting %s from pKalecgos's threatlist", pPlayer->GetName());
+                }
             }
-        }
+        }*/
 
         pInstance->SetGuid(DATA_PLAYER_SPECTRAL_REALM, pPlayer->GetObjectGuid());
     }
